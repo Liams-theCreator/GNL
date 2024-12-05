@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/05 11:53:28 by imellali         ###   ########.fr       */
+/*   Created: 2024/12/05 12:57:30 by imellali          #+#    #+#             */
+/*   Updated: 2024/12/05 13:20:32 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
 	static char	*buf;
-	char		temp[BUFFER_SIZE + 1];
-	char		*line;
 	char		*newline;
-	int			byter;
+	char		*line;
+	char		temp[BUFFER_SIZE + 1];
+	int			bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	//
-	while ((byter = read(fd, temp, BUFFER_SIZE)) > 0)
+	// reading from file 
+	while ((bytes = read(fd, temp, BUFFER_SIZE)) > 0)
 	{
-		temp[byter] = '\0';
+		temp[bytes] = '\0';
 		buf = ft_strjoin(buf, temp);
-		if (ft_strchr(buf, '\n'))
+		if ((ft_strchr(buf, '\n')))
 			break ;
 	}
+	// if theres no more data to read (EOF reached)
 	if (!buf)
 		return (NULL);
-	
-	//
-
+	// extracting line and return it
 	newline = ft_strchr(buf, '\n');
 	if (newline)
 	{
@@ -42,6 +41,7 @@ char	*get_next_line(int fd)
 		buf = ft_strdup(newline + 1);
 		return (line);
 	}
+	// if there is no new line found , then return what I read and fetch again until found newline
 	line = ft_strdup(buf);
 	free(buf);
 	buf = NULL;

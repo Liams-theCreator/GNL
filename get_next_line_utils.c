@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:47:03 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/04 23:13:53 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:58:27 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,13 @@ static size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (dstlen + srclen);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*buffer;
 	size_t	len;
 
 	if (s1 == NULL && s2 == NULL)
-		return (NULL);	
+		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
 	if (!s2)
@@ -144,4 +143,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substr[i] = '\0';
 	return (substr);
 }
-

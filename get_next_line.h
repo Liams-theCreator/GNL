@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:43:08 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/04 23:14:23 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:57:26 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #  define BUFFER_SIZE 44
 # endif
 
-#include <stdlib.h>
-#include <unistd.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
