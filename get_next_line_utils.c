@@ -22,42 +22,6 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	size_t	i;
-	char	*buffer;
-
-	i = 0;
-	len = ft_strlen(s);
-	buffer = malloc(sizeof(char) * (len + 1));
-	if (buffer == NULL)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		buffer[i] = s[i];
-		i++;
-	}
-	buffer[i] = '\0';
-	return (buffer);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if ((unsigned char)c == 0)
-		return ((char *)&s[i]);
-	return ((char *)0);
-}
-
 static size_t	ft_slcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	srclen;
