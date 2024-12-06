@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/06 15:21:55 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:11:12 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,24 @@ static char	*reading(int fd, char *buf, char *temp)
 	return (buf);
 }
 
+char	*extract(char *buf, char *newline)
+{
+	char	*pt;
+	char	*line;
+
+	line = ft_substr(buf, 0, newline - buf + 1);
+	pt = buf;
+	buf = ft_strdup(newline + 1);
+	free(pt);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buf;
 	char		temp[BUFFER_SIZE + 1];
-	char		*line;
 	char		*newline;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -80,11 +92,7 @@ char	*get_next_line(int fd)
 	}
 	newline = ft_strchr(buf, '\n');
 	if (newline)
-	{
-		line = ft_substr(buf, 0, newline - buf + 1);
-		buf = ft_strdup(newline + 1);
-		return (line);
-	}
+		return (extract(buf, newline));
 	line = ft_strdup(buf);
 	free(buf);
 	buf = NULL;
