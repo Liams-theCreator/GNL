@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/07 13:17:18 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:58:36 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_strdup(const char *s)
 static char	*freeing(char *buf)
 {
 	free(buf);
-	return NULL;
+	return (NULL);
 }
 
 static char	*reading(int fd, char *buf, char *temp)
@@ -87,18 +87,13 @@ char	*get_next_line(int fd)
 	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!temp)
 		return (NULL);
-
-	// read
 	leftover = reading(fd, leftover, temp);
-
 	if (!leftover || *leftover == '\0')
 	{
 		leftover = freeing(leftover);
 		temp = freeing(temp);
 		return (NULL);
 	}
-
-	// extract
 	newline = ft_strchr(leftover, '\n');
 	if (newline)
 	{
