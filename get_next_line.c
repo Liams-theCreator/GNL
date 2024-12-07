@@ -6,11 +6,12 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/07 12:24:50 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/07 13:17:18 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -51,7 +52,6 @@ char	*ft_strdup(const char *s)
 static char	*freeing(char *buf)
 {
 	free(buf);
-	buf = NULL;
 	return NULL;
 }
 
@@ -65,12 +65,12 @@ static char	*reading(int fd, char *buf, char *temp)
 		temp[byter] = '\0';
 		pt = buf;
 		buf = ft_strjoin(buf, temp);
-		freeing(pt);
+		pt = freeing(pt);
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
 	if (byter == -1)
-		return (freeing(buf));
+		return (buf = freeing(buf));
 	return (buf);
 }
 
@@ -88,26 +88,29 @@ char	*get_next_line(int fd)
 	if (!temp)
 		return (NULL);
 
+	// read
 	leftover = reading(fd, leftover, temp);
+
 	if (!leftover || *leftover == '\0')
 	{
-		freeing(leftover);
-		freeing(temp);
+		leftover = freeing(leftover);
+		temp = freeing(temp);
 		return (NULL);
 	}
-	
+
+	// extract
 	newline = ft_strchr(leftover, '\n');
 	if (newline)
 	{
 		data = ft_substr(leftover, 0, newline - leftover + 1);
 		pt = leftover;
 		leftover = ft_strdup(newline + 1);
-		freeing(pt);
-		freeing(temp);
+		pt = freeing(pt);
+		temp = freeing(temp);
 		return (data);
 	}
 	data = ft_strdup(leftover);
-	freeing(leftover);
-	freeing(temp);
+	leftover = freeing(leftover);
+	temp = freeing(temp);
 	return (data);
 }
