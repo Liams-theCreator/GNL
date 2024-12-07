@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/07 10:30:23 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/07 12:24:50 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,54 +48,66 @@ char	*ft_strdup(const char *s)
 	return (buffer);
 }
 
+static char	*freeing(char *buf)
+{
+	free(buf);
+	buf = NULL;
+	return NULL;
+}
+
 static char	*reading(int fd, char *buf, char *temp)
 {
 	int		byter;
+	char	*pt;
 
 	while ((byter = read(fd, temp, BUFFER_SIZE)) > 0)
 	{
 		temp[byter] = '\0';
+		pt = buf;
 		buf = ft_strjoin(buf, temp);
+		freeing(pt);
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
 	if (byter == -1)
-	{
-		free(buf);
-		buf = NULL;
-		return (NULL);
-	}
+		return (freeing(buf));
 	return (buf);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
-	char		temp[BUFFER_SIZE + 1];
+	char		*temp;
 	char		*newline;
 	char		*data;
 	char		*pt;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!temp)
+		return (NULL);
+
 	leftover = reading(fd, leftover, temp);
 	if (!leftover || *leftover == '\0')
 	{
-		free(leftover);
-		leftover = NULL;
+		freeing(leftover);
+		freeing(temp);
 		return (NULL);
 	}
+	
 	newline = ft_strchr(leftover, '\n');
 	if (newline)
 	{
 		data = ft_substr(leftover, 0, newline - leftover + 1);
 		pt = leftover;
 		leftover = ft_strdup(newline + 1);
-		free(pt);
+		freeing(pt);
+		freeing(temp);
 		return (data);
 	}
 	data = ft_strdup(leftover);
-	free(leftover);
-	leftover = NULL;
+	freeing(leftover);
+	freeing(temp);
 	return (data);
 }
