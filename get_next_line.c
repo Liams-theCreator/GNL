@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/06 21:04:32 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:30:23 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,37 +59,43 @@ static char	*reading(int fd, char *buf, char *temp)
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
-	return (buf);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*buf;
-	char		temp[BUFFER_SIZE + 1];
-	char		*newline;
-	char		*line;
-	char		*pt;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buf = reading(fd, buf, temp);
-	if (!buf || *buf == '\0')
+	if (byter == -1)
 	{
 		free(buf);
 		buf = NULL;
 		return (NULL);
 	}
-	newline = ft_strchr(buf, '\n');
+	return (buf);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*leftover;
+	char		temp[BUFFER_SIZE + 1];
+	char		*newline;
+	char		*data;
+	char		*pt;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	leftover = reading(fd, leftover, temp);
+	if (!leftover || *leftover == '\0')
+	{
+		free(leftover);
+		leftover = NULL;
+		return (NULL);
+	}
+	newline = ft_strchr(leftover, '\n');
 	if (newline)
 	{
-		line = ft_substr(buf, 0, newline - buf + 1);
-		pt = buf;
-		buf = ft_strdup(newline + 1);
+		data = ft_substr(leftover, 0, newline - leftover + 1);
+		pt = leftover;
+		leftover = ft_strdup(newline + 1);
 		free(pt);
-		return (line);
+		return (data);
 	}
-	line = ft_strdup(buf);
-	free(buf);
-	buf = NULL;
-	return (line);
+	data = ft_strdup(leftover);
+	free(leftover);
+	leftover = NULL;
+	return (data);
 }
