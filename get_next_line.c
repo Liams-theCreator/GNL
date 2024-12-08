@@ -6,28 +6,11 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/07 16:58:36 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:32:35 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if ((unsigned char)c == 0)
-		return ((char *)&s[i]);
-	return ((char *)0);
-}
 
 char	*ft_strdup(const char *s)
 {
@@ -74,13 +57,31 @@ static char	*reading(int fd, char *buf, char *temp)
 	return (buf);
 }
 
+static char	*nlcheck(char **leftover, char *temp)
+{
+	char	*newline;
+	char	*data;
+	char	*pt;
+
+	newline = ft_strchr(*leftover, '\n');
+	if (newline)
+	{
+		data = ft_substr(*leftover, 0, newline - *leftover + 1);
+		pt = *leftover;
+		*leftover = ft_strdup(newline + 1);
+		pt = freeing(pt);
+		temp = freeing(temp);
+		return (data);
+	}
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
 	char		*temp;
 	char		*newline;
 	char		*data;
-	char		*pt;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -94,16 +95,9 @@ char	*get_next_line(int fd)
 		temp = freeing(temp);
 		return (NULL);
 	}
-	newline = ft_strchr(leftover, '\n');
+	newline = nlcheck(&leftover, temp);
 	if (newline)
-	{
-		data = ft_substr(leftover, 0, newline - leftover + 1);
-		pt = leftover;
-		leftover = ft_strdup(newline + 1);
-		pt = freeing(pt);
-		temp = freeing(temp);
-		return (data);
-	}
+		return (newline);
 	data = ft_strdup(leftover);
 	leftover = freeing(leftover);
 	temp = freeing(temp);

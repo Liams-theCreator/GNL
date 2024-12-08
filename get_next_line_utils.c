@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:47:03 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/05 09:58:27 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:32:10 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ size_t	ft_strlen(const char *s)
 	while (s[len] != '\0')
 		len++;
 	return (len);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if ((unsigned char)c == 0)
+		return ((char *)&s[i]);
+	return ((char *)0);
 }
 
 static size_t	ft_slcpy(char *dst, const char *src, size_t dstsize)
@@ -39,28 +55,6 @@ static size_t	ft_slcpy(char *dst, const char *src, size_t dstsize)
 	return (srclen);
 }
 
-static size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	dstlen;
-	size_t	srclen;
-	size_t	i;
-
-	i = 0;
-	srclen = ft_strlen(src);
-	if (size == 0)
-		return (srclen);
-	dstlen = ft_strlen(dst);
-	if (size < dstlen)
-		return (size + srclen);
-	while (i + dstlen < size - 1 && src[i] != '\0')
-	{
-		dst[dstlen + i] = src[i];
-		i++;
-	}
-	dst[dstlen + i] = '\0';
-	return (dstlen + srclen);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*buffer;
@@ -77,7 +71,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (buffer == NULL)
 		return (NULL);
 	ft_slcpy(buffer, s1, len + 1);
-	ft_strlcat(buffer, s2, len + 1);
+	ft_slcpy(buffer + ft_strlen(s1), s2, len + 1 - ft_strlen(s1));
 	return (buffer);
 }
 

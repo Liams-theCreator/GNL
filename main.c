@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:49:29 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/06 14:23:56 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:36:39 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ int main(void)
     char *result;
 
     fd = open("text.txt", O_RDONLY);
-	if (!fd)
-		printf("invalid file descriptor");
-   	while ((result = get_next_line(fd)))
+	while ((result = get_next_line(fd)))
 	{
 		printf("%s", result);
 		free(result);
-		result = NULL;
 	}
 	close(fd);
     return (0);
