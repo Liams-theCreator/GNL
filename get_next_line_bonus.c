@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 19:27:12 by imellali         ###   ########.fr       */
+/*   Created: 2024/12/09 19:28:46 by imellali          #+#    #+#             */
+/*   Updated: 2024/12/09 19:28:48 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,28 @@ static char	*nlcheck(char **leftover, char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*leftover;
+	static char	*leftover[1024];
 	char		*temp;
 	char		*newline;
 	char		*data;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!temp)
 		return (NULL);
-	leftover = reading(fd, leftover, temp);
-	if (!leftover || *leftover == '\0')
+	leftover[fd] = reading(fd, leftover[fd], temp);
+	if (!leftover[fd] || *leftover[fd] == '\0')
 	{
-		leftover = freeing(leftover);
+		leftover[fd] = freeing(leftover[fd]);
 		temp = freeing(temp);
 		return (NULL);
 	}
-	newline = nlcheck(&leftover, temp);
+	newline = nlcheck(&leftover[fd], temp);
 	if (newline)
 		return (newline);
-	data = ft_strdup(leftover);
-	leftover = freeing(leftover);
+	data = ft_strdup(leftover[fd]);
+	leftover[fd] = freeing(leftover[fd]);
 	temp = freeing(temp);
 	return (data);
 }
