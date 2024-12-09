@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 19:27:12 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:39:37 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static char	*reading(int fd, char *buf, char *temp)
 	int		byter;
 	char	*pt;
 
-	while ((byter = read(fd, temp, BUFFER_SIZE)) > 0)
+	byter = read(fd, temp, BUFFER_SIZE);
+	while (byter > 0)
 	{
 		temp[byter] = '\0';
 		pt = buf;

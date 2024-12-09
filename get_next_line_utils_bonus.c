@@ -6,11 +6,11 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:29:02 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 19:29:05 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:37:30 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {

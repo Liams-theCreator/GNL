@@ -6,11 +6,11 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:28:46 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 19:28:48 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:38:59 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strdup(const char *s)
 {
@@ -43,7 +43,8 @@ static char	*reading(int fd, char *buf, char *temp)
 	int		byter;
 	char	*pt;
 
-	while ((byter = read(fd, temp, BUFFER_SIZE)) > 0)
+	byter = read(fd, temp, BUFFER_SIZE);
+	while (byter > 0)
 	{
 		temp[byter] = '\0';
 		pt = buf;
