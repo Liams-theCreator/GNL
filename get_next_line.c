@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:33 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 19:39:37 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:56:39 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,15 @@ static char	*reading(int fd, char *buf, char *temp)
 	char	*pt;
 
 	byter = read(fd, temp, BUFFER_SIZE);
-	while (byter > 0)
+	if (byter == -1)
+		return (buf = freeing(buf));
+	if (byter > 0 && !(ft_strchr(buf, '\n')))
 	{
 		temp[byter] = '\0';
 		pt = buf;
 		buf = ft_strjoin(buf, temp);
 		pt = freeing(pt);
-		if (ft_strchr(buf, '\n'))
-			break ;
 	}
-	if (byter == -1)
-		return (buf = freeing(buf));
 	return (buf);
 }
 
