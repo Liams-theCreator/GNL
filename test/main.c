@@ -6,11 +6,11 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:49:29 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/09 18:20:46 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:37:39 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../get_next_line_bonus.h"
 #include <stdio.h>
 #include <fcntl.h>
 

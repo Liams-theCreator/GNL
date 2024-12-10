@@ -6,7 +6,7 @@
 /*   By: imellali <imellali@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:28:46 by imellali          #+#    #+#             */
-/*   Updated: 2024/12/10 15:45:25 by imellali         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:33:45 by imellali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ char	*ft_strdup(const char *s)
 	return (buffer);
 }
 
-static char	*freeing(char *buf)
+static void	freeing(char **buf)
 {
-	free(buf);
-	return (NULL);
+	free(*buf);
+	*buf = NULL;
 }
 
 static char	*reading(int fd, char *buf, char *temp)
@@ -43,17 +43,22 @@ static char	*reading(int fd, char *buf, char *temp)
 	int		byter;
 	char	*pt;
 
-	while ((byter = read(fd, temp, BUFFER_SIZE)) > 0)
+	byter = read(fd, temp, BUFFER_SIZE);
+	while (byter > 0)
 	{
 		temp[byter] = '\0';
 		pt = buf;
 		buf = ft_strjoin(buf, temp);
-		pt = freeing(pt);
+		freeing(&pt);
 		if ((ft_strchr(buf, '\n')))
 			break ;
+		byter = read(fd, temp, BUFFER_SIZE);
 	}
 	if (byter == -1)
-		return (buf = freeing(buf));
+	{
+		freeing(&buf);
+		return (NULL);
+	}
 	return (buf);
 }
 
@@ -69,8 +74,8 @@ static char	*nlcheck(char **leftover, char *temp)
 		data = ft_substr(*leftover, 0, newline - *leftover + 1);
 		pt = *leftover;
 		*leftover = ft_strdup(newline + 1);
-		pt = freeing(pt);
-		temp = freeing(temp);
+		freeing(&pt);
+		freeing(&temp);
 		return (data);
 	}
 	return (NULL);
@@ -91,15 +96,15 @@ char	*get_next_line(int fd)
 	leftover[fd] = reading(fd, leftover[fd], temp);
 	if (!leftover[fd] || *leftover[fd] == '\0')
 	{
-		leftover[fd] = freeing(leftover[fd]);
-		temp = freeing(temp);
+		freeing(&leftover[fd]);
+		freeing(&temp);
 		return (NULL);
 	}
 	newline = nlcheck(&leftover[fd], temp);
 	if (newline)
 		return (newline);
 	data = ft_strdup(leftover[fd]);
-	leftover[fd] = freeing(leftover[fd]);
-	temp = freeing(temp);
+	freeing(&leftover[fd]);
+	freeing(&temp);
 	return (data);
 }
